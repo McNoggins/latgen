@@ -8,7 +8,7 @@ except ImportError:
     from distutils.core import setup
 
 
-readme = open('README.md').read()
+readme = open('README.rst').read()
 history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 
 requirements = [
