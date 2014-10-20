@@ -31,7 +31,7 @@ setup(
                  'latgen'},
     include_package_data=True,
     install_requires=['numpy'],
-    license="BSD",
+    license="GPL",
     zip_safe=False,
     keywords='latgen',
     classifiers=[
