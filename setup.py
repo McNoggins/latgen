@@ -26,7 +26,7 @@ setup(
     author='Denis Gagnon',
     author_email='gagnon88@gmail.com',
     url='https://github.com/McNoggins/latgen',
-    packages=setuptools.find_packages()
+    packages=find_packages(),
     package_dir={'latgen':
                  'latgen'},
     include_package_data=True,
