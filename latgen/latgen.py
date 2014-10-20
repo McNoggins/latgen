@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 
+from . import _latgen
+
 def honeycomb(depth=1,pitch=1.0):
     """Generate the points of a regular honeycomb lattice.
 
