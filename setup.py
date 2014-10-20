@@ -26,13 +26,11 @@ setup(
     author='Denis Gagnon',
     author_email='gagnon88@gmail.com',
     url='https://github.com/McNoggins/latgen',
-    packages=find_packages(),
+    packages=['latgen'],
     package_dir={'latgen':
                  'latgen'},
     include_package_data=True,
-    install_requires=[
-      'numpy',
-    ],
+    install_requires=['numpy'],
     license="BSD",
     zip_safe=False,
     keywords='latgen',
