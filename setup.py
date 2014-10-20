@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-
 try:
-    from setuptools import setup
+    from setuptools import setup, find_packages
 except ImportError:
     from distutils.core import setup
 
@@ -27,13 +26,13 @@ setup(
     author='Denis Gagnon',
     author_email='gagnon88@gmail.com',
     url='https://github.com/McNoggins/latgen',
-    packages=[
-        'latgen',
-    ],
+    packages=setuptools.find_packages()
     package_dir={'latgen':
                  'latgen'},
     include_package_data=True,
-    install_requires=requirements,
+    install_requires=[
+      'numpy',
+    ],
     license="BSD",
     zip_safe=False,
     keywords='latgen',
