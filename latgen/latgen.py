@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 
-#from . import _latgen
-
 def honeycomb(depth=1,pitch=1.0):
     """Generate the points of a regular honeycomb lattice.
 
@@ -11,6 +9,9 @@ def honeycomb(depth=1,pitch=1.0):
     points starting from the central point (default 1)
     
     pitch -- the lattice pitch (default 1.0)
+    
+    Return arguments:
+    X,Y -- Lists of lattice points
     """
 
     # Initialize some empty lists
@@ -66,12 +67,11 @@ def honeycomb(depth=1,pitch=1.0):
                 X.extend([ - (0.5+colid)*hx])
                 Y.extend([ -rowid*hy])
 
-    # Convert to numpy arrays and sort
-    x=np.array(X)
-    y=np.array(Y)
+    # Lexical sort of lists
+    ind = np.lexsort((X,Y))
    
-    xsort=x[np.lexsort((X,Y))]
-    ysort=y[np.lexsort((X,Y))]
+    xsort=[X[i] for i in ind]
+    ysort=[Y[i] for i in ind]
 
-    # Return sorted numpy arrays
+    # Return sorted lists
     return xsort,ysort
