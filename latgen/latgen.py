@@ -66,7 +66,7 @@ def triangle(depth=1,pitch=1.0):
                 # X-Y symmetry
                 X.extend([ - (0.5+colid)*hx])
                 Y.extend([ -rowid*hy])
-                
+
     # Lexical sort of lists
     ind = np.lexsort((X,Y))
 
@@ -76,7 +76,7 @@ def triangle(depth=1,pitch=1.0):
     # Return sorted lists
     return xsort,ysort
 
-def honeycomb(depth=1,pitch=1.0):
+def honeycomb_armchair(depth=1,pitch=1.0):
     """Generate the points of a regular honeycomb lattice (with zigzag edges)
 
     Keyword arguments:
@@ -94,84 +94,47 @@ def honeycomb(depth=1,pitch=1.0):
     Y=[]
     a=float(pitch)
 
-    hx=np.sqrt(3.0)*a
-    hy=1.5*a
+    # Lattice vectors
+    a1=[np.sqrt(3.0)*a, 0.0]
+    a2=[0.5*np.sqrt(3.0)*a, 1.5*a]
+
+    # Atom vectors
+    d1=[0.5*np.sqrt(3.0)*a,0.5]
+    d2=[0.0,a]
 
     # Generate every row using a loop
-    for rowid in range(depth):
+    for rowid in range(depth+3):
+        for colid in range(depth+3):
 
-        if (rowid % 2) == 0: # Even row
-            for colid in range(depth - rowid/2):
-                # Base point
-                X.extend([colid*hx, colid*hx])
-                Y.extend([rowid*hy, rowid*hy + a])
+            # Generate test point
+            Xcoord = rowid*a1[0] + colid*a2[0] + d1[0]
+            Ycoord = rowid*a1[1] + colid*a2[1] + d1[1]
 
-                # Execute for non-zero rows
-                if (rowid != 0):
-                    # Y-symmetry
-                    X.extend([colid*hx, colid*hx])
-                    Y.extend([-rowid*hy, -rowid*hy + a])
-
-                # Execute for non-zero columns
-                if (colid != 0):
-                    # X-symmetry
-                    X.extend([-colid*hx, -colid*hx])
-                    Y.extend([rowid*hy, rowid*hy + a])
-
-                # Execute for non-zero rows and columns
-                if (colid != 0 and rowid !=0):
-                    # X-Y symmetry
-                    X.extend([-colid*hx, -colid*hx])
-                    Y.extend([-rowid*hy, -rowid*hy + a])
-
-
-        elif (rowid % 2) == 1: # Odd row
-            for colid in range(depth-(rowid +1)/2 ):
-                # Base point
-                X.extend([ (0.5+colid)*hx, (0.5+colid)*hx])
-                Y.extend([ rowid*hy, rowid*hy + a])
-
-                # X symmetry
-                X.extend([ -(0.5+colid)*hx, -(0.5+colid)*hx])
-                Y.extend([ rowid*hy, rowid*hy + a])
-
-                # Y symmetry
-                X.extend([ (0.5+colid)*hx, (0.5+colid)*hx])
-                Y.extend([ -rowid*hy, -rowid*hy + a ])
-
-                # X-Y symmetry
-                X.extend([ - (0.5+colid)*hx, -(0.5+colid)*hx])
-                Y.extend([ -rowid*hy, -rowid*hy + a])
-
-        # Terminate using zigzag edges
-        if (rowid == depth -1 and rowid % 2 == 0):
-            print "a"
-            for colid in range(depth - rowid/2 - 1):
+            # Armchair edge condition
+            if (Xcoord <= depth*a1[0] and Ycoord <= 2*depth*a - np.sqrt(3.0)*Xcoord/3.0):
                 
-                # Base point
-                Xcoord = colid*hx + 0.5*hx
-                Ycoord = rowid*hy + 1.5*a
+                # Write point in list
                 X.extend([Xcoord])
                 Y.extend([Ycoord])
                 
-                # X symmetry
-                X.extend([Xcoord])
-                Y.extend([-Ycoord + a])
+                # Generate rotations
+                X.extend([0.5*Xcoord - 0.5*np.sqrt(3.0)*Ycoord])
+                Y.extend([0.5*np.sqrt(3.0)*Xcoord + 0.5*Ycoord])
                 
-                # Y symmetry
-                X.extend([-Xcoord])
+
+            # Generate test point
+            Xcoord = rowid*a1[0] + colid*a2[0] + d2[0]
+            Ycoord = rowid*a1[1] + colid*a2[1] + d2[1]
+
+            # Armchair edge condition
+            if (Xcoord <= depth*a1[0] and Ycoord <= 2*depth*a - np.sqrt(3.0)*Xcoord/3.0):
+                X.extend([Xcoord])
                 Y.extend([Ycoord])
                 
-                # X-Y symmetry
-                X.extend([-Xcoord])
-                Y.extend([-Ycoord + a])
-            
-        if (rowid == depth - 1 and rowid % 2 == 1):
-            print "b"
-            for colid in range(depth-(rowid +1)/2 - 1):
-                # Base point
-                X.extend([(0.5+colid)*colid*hx + 0.5*hx])
-                Y.extend([rowid*hy + 1.5*a])
+                # Generate rotations
+                X.extend([0.5*Xcoord - 0.5*np.sqrt(3.0)*Ycoord])
+                Y.extend([0.5*np.sqrt(3.0)*Xcoord + 0.5*Ycoord])
+                
 
     # Lexical sort of lists
     ind = np.lexsort((X,Y))
