@@ -102,24 +102,29 @@ def honeycomb_armchair(depth=1,pitch=1.0):
     d1=[0.5*np.sqrt(3.0)*a,0.5]
     d2=[0.0,a]
 
+    # Internal variable (to generate enough points)
+    offset=6
+
     # Generate every row using a loop
-    for rowid in range(depth+3):
-        for colid in range(depth+3):
+    for rowid in range(-(depth+offset),depth+offset):
+        for colid in range(-(depth+offset),depth+offset):
 
             # Generate test point
             Xcoord = rowid*a1[0] + colid*a2[0] + d1[0]
             Ycoord = rowid*a1[1] + colid*a2[1] + d1[1]
 
             # Armchair edge condition
-            if (Xcoord <= depth*a1[0] and Ycoord <= 2*depth*a - np.sqrt(3.0)*Xcoord/3.0):
+            if (Xcoord - 0.5*a <= depth*a1[0] and \
+                Xcoord + 0.5*a >= -depth*a1[0] and \
+                Ycoord <= 2*depth*a - np.sqrt(3.0)*Xcoord/3.0 and \
+                Ycoord <= 2*depth*a + np.sqrt(3.0)*Xcoord/3.0 and \
+                Ycoord >= -2*depth*a - np.sqrt(3.0)*Xcoord/3.0 and \
+                Ycoord >= -2*depth*a + np.sqrt(3.0)*Xcoord/3.0
+                ):
                 
                 # Write point in list
                 X.extend([Xcoord])
                 Y.extend([Ycoord])
-                
-                # Generate rotations
-                X.extend([0.5*Xcoord - 0.5*np.sqrt(3.0)*Ycoord])
-                Y.extend([0.5*np.sqrt(3.0)*Xcoord + 0.5*Ycoord])
                 
 
             # Generate test point
@@ -127,14 +132,18 @@ def honeycomb_armchair(depth=1,pitch=1.0):
             Ycoord = rowid*a1[1] + colid*a2[1] + d2[1]
 
             # Armchair edge condition
-            if (Xcoord <= depth*a1[0] and Ycoord <= 2*depth*a - np.sqrt(3.0)*Xcoord/3.0):
+            if (Xcoord - 0.5*a <= depth*a1[0] and \
+                Xcoord + 0.5*a >= -depth*a1[0] and \
+                Ycoord <= 2*depth*a - np.sqrt(3.0)*Xcoord/3.0 and \
+                Ycoord <= 2*depth*a + np.sqrt(3.0)*Xcoord/3.0 and \
+                Ycoord >= -2*depth*a - np.sqrt(3.0)*Xcoord/3.0 and \
+                Ycoord >= -2*depth*a + np.sqrt(3.0)*Xcoord/3.0
+                ):
+                
+                # Write point in list
                 X.extend([Xcoord])
                 Y.extend([Ycoord])
-                
-                # Generate rotations
-                X.extend([0.5*Xcoord - 0.5*np.sqrt(3.0)*Ycoord])
-                Y.extend([0.5*np.sqrt(3.0)*Xcoord + 0.5*Ycoord])
-                
+
 
     # Lexical sort of lists
     ind = np.lexsort((X,Y))
